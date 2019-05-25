@@ -13,7 +13,7 @@ class Server {
             int backlog = 1;
 
             ServerSocket server = new ServerSocket(port,backlog);
-            server.setSoTimeout(4000);
+            server.setSoTimeout(40000);
             System.out.printf("[SERVER] - Up and Running at port %d with backlog of %d\n", port, backlog);
 
             while (true) //funcion del servidor:
@@ -49,19 +49,25 @@ class Server {
                         // Return error option not available
                         result = "Option not available. \nUse 'u' for uppercase or 'l' for lowercase";
                     }
+					
+					// Send it to client
+					out.println(result);
 
                 } else { // We got mode "f"
                     result = "FINISH";
+					
+					// Send it to client
+					out.println(result);
+					
+					// Close socket
+					in.close();
+					out.close();
+					client.close();
                 }
 
-                // Send it to client
-                out.println(result);
+               
 
-
-                // Close socket
-                in.close();
-                out.close();
-                client.close();
+                
             }
         }
         catch (Exception e)
